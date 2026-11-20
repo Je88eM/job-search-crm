@@ -1,0 +1,30 @@
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+*keys*.md
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+.vercel/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+~$*
+
+# Next.js / tooling
+/coverage
+/build
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+.pnp
+.pnp.*
+
+# Supabase local CLI state
+supabase/.temp/
+supabase/.branches/
