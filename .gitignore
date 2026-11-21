@@ -31,3 +31,6 @@ supabase/.branches/
 
 # Temporary files (disposable)
 .tmp/
+
+# Large video files (shared via Tella link instead; GitHub's limit is 100 MB per file)
+media/

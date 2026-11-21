@@ -125,8 +125,8 @@ tools/rls_check.mjs       # Security test: `node tools/rls_check.mjs` (needs DEM
 **Security rules (from `secure.md`)**
 - API keys and passwords go in `.env.local` only, never in other files and never pasted into chat. Supabase's secret/service-role key must never reach the browser or Git.
 - If Supabase is used, enable Row Level Security on every table; the publishable/anon key is public by design.
-- Use test data, never real people's details, in screenshots, Loom recordings and seed files.
+- Use test data, never real people's details, in screenshots, video recordings and seed files.
 - Approve tool permissions per project, not globally.
 
 **Showcase**
-- Keep `build-notes.md` up to date (decisions, problems, lessons, Loom/screenshot links). It becomes the Build #2 write-up on murdockjesse.com, which lives in the separate `GTME - Website` folder (next to this one) project. Never edit the website from this project.
+- Keep `build-notes.md` up to date (decisions, problems, lessons, video/screenshot links). It becomes the Build #2 write-up on murdockjesse.com, which lives in the separate `GTME - Website` folder (next to this one) project. Never edit the website from this project.
