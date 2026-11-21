@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useTransition } from "react";
-import { Mail, MessageSquare, Phone, StickyNote, Video, X, type LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Mail, MessageSquare, Phone, StickyNote, Trash2, Video, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -110,11 +111,11 @@ function TimelineItem({ activity, subject }: { activity: ActivityRow; subject: S
   }
 
   return (
-    <li className={deleting ? "opacity-50" : undefined}>
+    <li className={cn("group", deleting && "opacity-50")}>
       <span className="absolute -left-3 flex size-6 items-center justify-center rounded-full border bg-background">
         <Icon className="size-3 text-muted-foreground" />
       </span>
-      <div className="group flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-2">
         <p className="text-xs text-muted-foreground">
           <span className="font-medium text-foreground">{ACTIVITY_LABELS[activity.activity_type]}</span> · {formatTimestamp(activity.occurred_at)}
         </p>
@@ -123,9 +124,11 @@ function TimelineItem({ activity, subject }: { activity: ActivityRow; subject: S
           onClick={handleDelete}
           disabled={deleting}
           aria-label="Delete activity"
-          className="text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100 focus-visible:opacity-100"
+          title="Delete activity"
+          className="flex items-center gap-1 rounded px-1 text-xs text-muted-foreground/60 transition-colors hover:bg-destructive/10 hover:text-destructive group-hover:text-muted-foreground focus-visible:text-destructive"
         >
-          <X className="size-3.5" />
+          <Trash2 className="size-3.5" />
+          Delete
         </button>
       </div>
       <p className="mt-0.5 whitespace-pre-wrap text-sm">{activity.body}</p>

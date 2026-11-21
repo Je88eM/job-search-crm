@@ -17,8 +17,13 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    // Same message for every failure, so the page doesn't reveal which emails exist.
-    return { error: "That email and password don't match." };
+    // Wrong email and wrong password get the same message, so the page doesn't reveal which emails exist.
+    if (error.code === "invalid_credentials") {
+      return { error: "That email and password don't match." };
+    }
+    // Anything else is a setup or network problem (e.g. a bad key in the hosting settings), not the user's typing.
+    console.error("Login failed:", error.code ?? error.status, error.message);
+    return { error: "Login isn't available right now (setup problem). Please try again later." };
   }
 
   redirect("/");

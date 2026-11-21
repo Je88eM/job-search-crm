@@ -28,3 +28,6 @@ npm-debug.log*
 # Supabase local CLI state
 supabase/.temp/
 supabase/.branches/
+
+# Temporary files (disposable)
+.tmp/

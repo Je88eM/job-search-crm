@@ -44,6 +44,7 @@ Features, how they work, and the tools/stack behind them.
 - **Demo account + fake data:** a separate `demo@example.com` login filled by `supabase/seed.sql` with invented companies and people (example.com emails), so screenshots and the Loom never show real recruiters. Dates are relative to today, so the dashboard always looks live, and re-running the script resets it.
 - **Automated security test (`tools/rls_check.mjs`):** 23 checks that try to break in: reading every table while logged out, signing up as a stranger, and, logged in as the demo user, reading, editing, deleting or creating rows that belong to my real account. Result: **23/23 blocked**.
 - **Security hardening (secure.md checklist):** browser security headers (only my own site's code can run, the app can't be framed by other sites, HTTPS forced); the browser never talks to Supabase directly, every read and save goes through the server; a friendly error page that hides technical details; 0 known vulnerabilities in the code that ships (the 4 moderate npm warnings are in the shadcn build tool, which never reaches the browser).
+- **Shipping:** GitHub repo created and pushed from the terminal (`gh`), after a secrets scan of every file and with GitHub's private noreply email as the commit author. Vercel imports the repo, and the two keys go into Vercel's Environment Variables screen, never into the code. Every push to `main` redeploys automatically. Live checks passed: logged-out visitors are redirected to the login page, all security headers are on, and no keys appear in the page.
 
 ## Problems I hit (and how I fixed them)
 
@@ -54,6 +55,8 @@ Features, how they work, and the tools/stack behind them.
 - **Logged activities didn't show on other tabs until a reload.** Next.js keeps copies of pages it has already loaded, so tabs feel instant. After a save, only the current page was refreshed, so the contact's timeline showed an older copy. Every save now clears the cached copies of all pages, because one save can change several tabs: an activity shows on its company, contact and application, and moving a card to Applied creates a task.
 - **Supabase's "Grant API access to new tables automatically" was off.** That's the safer setting, but my tables would have been unreachable. I added an explicit `grant … to authenticated` to the migration, so only logged-in users get access and RLS still limits them to their own rows.
 
+- **Login worked on my laptop but not on the live site.** Same password, different result, so the difference had to be in Vercel's settings. The publishable key in Vercel was only 31 of its 46 characters: double-clicking to select it stopped at a dash inside the key. Re-copying with Shift+End fixed it. Vercel had also saved the keys as "Secret", but `NEXT_PUBLIC_` values are public by design (RLS protects the data), so they're now "Config". Lessons: environment variable changes only apply after a redeploy, and a deleted variable crashes every page until it's added back. I also changed the login error so a setup problem says "setup problem" instead of "wrong password".
+
 ## What I learned
 
 -
@@ -61,6 +64,7 @@ Features, how they work, and the tools/stack behind them.
 ## Showcase
 
 - Loom walkthrough link:
-- Live demo link (if any):
+- Live app (login required, so a private tool rather than a public demo): https://job-search-crm-eta.vercel.app
+- Code (public): https://github.com/Je88eM/job-search-crm
 - Screenshots (save in `screenshots/`, using test data only):
 - Tools used:
